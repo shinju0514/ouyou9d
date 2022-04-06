@@ -1,0 +1,6 @@
+$('#comment').html("<%= j(render 'comment',book_comments: @book_comment.book.book_comments) %>");
+$("textarea").val('')
+<!--book_comments:(空のコメントを.bookでidを持ってくるようにし、そこから複数のコメントを取得する-->
+<!--bookcommentコントローラーから変数を持ってくる-->
+<!--（クラス名).メソッド(render~~)-->
+<!--$("textarea").val('')この記述でcreateアクションの際にフォームを0にする-->

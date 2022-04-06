@@ -17,19 +17,6 @@
           </td>
           <td><%= link_to @book.title, @book %></td>
           <td><%= @book.body %></td>
-          <% if @book.favorited_by?(current_user) %>
-           <p>
-          <td><%= link_to book_favorites_path(@book), method: :delete do %>
-              ❤️<%= @book.favorites.count %>　いいね
-              <% end %></td>
-           </p>
-           <% else %>
-           <p>
-          <td><%= link_to book_favorites_path(@book), method: :post do %>
-              ♡<%= @book.favorites.count %> いいね
-              <% end %></td>
-           </p>>
-          <% end %>
           <td>コメント数<%= @book.book_comments.count %></td>
 
           <% if @book.user == current_user %>
@@ -38,26 +25,16 @@
             <% end %>
         </tr>
       </table>
-     <div>
-      <% @book.book_comments.each do |book_comment| %>
-       <p><%= image_tag book_comment.user.get_profile_image %></p>
-       <%= book_comment.user.name %>
-       <%= book_comment.created_at.strftime('%Y/%m/%d') %><%= book_comment.comment %>
-     </div>
-
-     <div>
-       <% if book_comment.user == current_user %>
-       <%= link_to "Destroy" ,book_book_comment_path(book_comment.book,book_comment), method: :delete %>
-       <% end %>
-      <% end %>
-    </div>
-
-     <div>
-       <%= form_with model: [@book,@book_comment] do |f| %>
-        <%= f.text_area :comment, rows: '5',placeholder: "コメントをここに" %>
-        <%= f.submit "送信する" %>
-      <% end %>
-     </div>
+<!--クラスを指定するときは必ずid=にする-->
+<!--showコントローラーの変数をrenderで持ってくるようにする-->
+      <div id="comment">
+       <%= render 'book_comments/comment', book_comments: @book.book_comments %>
+      </div>
+<!--フォームでは非同期通信にしないのでクラスの指定はclass=とする-->
+<!--showコントローラーの変数をrenderで持ってくるようにする-->
+      <div class="new_comment">
+       <%= render 'book_comments/form',book: @book, book_comment: @book_comment %>
+      </div>
     </div>
   </div>
 </div>
