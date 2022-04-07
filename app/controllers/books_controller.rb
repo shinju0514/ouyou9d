@@ -9,9 +9,15 @@ class BooksController < ApplicationController
   end
 
   def index
-    @books = Book.all
     @book = Book.new
     @user=current_user
+    if params[(:created_at)||(:rate)]
+    @books = Book.latest
+    elsif
+    @books = Book.rated
+    else
+    @books = Book.all
+    end
   end
 
   def create
