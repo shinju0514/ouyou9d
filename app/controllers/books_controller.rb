@@ -6,10 +6,12 @@ class BooksController < ApplicationController
     @book = Book.find(params[:id])
     @user = @book.user
     @book_comment=BookComment.new
+    @book_tags = @book.tags
   end
 
   def index
     @book = Book.new
+    @tag_list = Tag.all
     @user=current_user
     if params[(:created_at)||(:rate)]
     @books = Book.latest
@@ -23,7 +25,9 @@ class BooksController < ApplicationController
   def create
     @book = Book.new(book_params)
     @book.user_id = current_user.id
-    if @book.save
+    tag_list = params[:body][:tag_name]
+    if@book.save
+      @book.save_tag(tag_list)
       flash[:notice]="successfully"
       redirect_to book_path(@book)
     else
@@ -55,9 +59,8 @@ class BooksController < ApplicationController
   private
 
   def book_params
-    params.require(:book).permit(:title, :body, :rate)
+    params.require(:book).permit(:title, :body, :rate, :tag_name)
   end
-
   def correct_user
     @book = Book.find(params[:id])
     @user = @book.user

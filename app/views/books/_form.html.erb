@@ -8,6 +8,13 @@
     <%= f.text_area :body, class: 'form-control book_body' %>
   </div>
 
+  <div class="article-tags-field">
+      <%= f.label "カテゴリー" %>
+      <%= f.text_field :tag_name %>
+      <ul id="article-tags">
+      </ul>
+  </div>
+
   <div class="form-group row" id="star"><!--id="star"でセレクタを指定している-->
     <%= f.label :rate,'評価 ', class:'col-md-3 col-form-label' %>
     <%= f.hidden_field :rate, id: :review_star %>
